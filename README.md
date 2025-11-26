@@ -1,5 +1,7 @@
 # Geist
 
+<img src="public/icon.png" alt="Geist Icon" width="80" height="80">
+
 A minimal, elegant, and modern dashboard application built with Vue 3, TypeScript, and Pocketbase.
 
 ## ✨ Features
