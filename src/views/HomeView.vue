@@ -54,19 +54,39 @@ function applyGravity(items: GridWidget[]) {
   }
 }
 
-// Andere Karten nach unten schieben, wenn eine größer wird
-function resolveResizeCollisions(items: GridWidget[], resized: GridWidget) {
+// Alle Overlaps auflösen: immer den unteren nach unten schieben,
+// bis kein Paar mehr überlappt.
+function resolveAllCollisions(items: GridWidget[]) {
   let changed = true
 
   while (changed) {
     changed = false
 
-    for (const w of items) {
-      if (w.id === resized.id) continue
-      if (rectsOverlap(resized, w)) {
-        const newRow = resized.row + resized.rowSpan
-        if (w.row < newRow) {
-          w.row = newRow
+    for (let i = 0; i < items.length; i++) {
+      const a = items[i]
+      if (!a) continue
+
+      for (let j = 0; j < items.length; j++) {
+        if (i === j) continue
+
+        const b = items[j]
+        if (!b) continue
+
+        if (!rectsOverlap(a, b)) continue
+
+        // den oberen & unteren bestimmen
+        let upper: GridWidget = a
+        let lower: GridWidget = b
+
+        if (b.row < a.row || (b.row === a.row && b.col < a.col)) {
+          upper = b
+          lower = a
+        }
+
+        const newRow = upper.row + upper.rowSpan
+
+        if (lower.row < newRow) {
+          lower.row = newRow
           changed = true
         }
       }
@@ -160,7 +180,8 @@ function onResizeMove(e: MouseEvent) {
 
   widget.rowSpan = newRowSpan
 
-  resolveResizeCollisions(updated, widget)
+  // global alle Overlaps fixen
+  resolveAllCollisions(updated)
 
   widgets.value = updated
 }
@@ -168,12 +189,13 @@ function onResizeMove(e: MouseEvent) {
 function onResizeEnd() {
   if (resizingIndex.value !== null) {
     const updated = [...widgets.value]
-    const widget = updated[resizingIndex.value]
-    if (widget) {
-      resolveResizeCollisions(updated, widget)
-      applyGravity(updated)
-      widgets.value = updated
-    }
+
+    // Erst alle Kollisionen sauber nach unten schieben
+    resolveAllCollisions(updated)
+    // Dann alles wieder so weit wie möglich nach oben "fallen" lassen
+    applyGravity(updated)
+
+    widgets.value = updated
   }
 
   resizingIndex.value = null
