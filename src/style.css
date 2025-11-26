@@ -1,5 +1,7 @@
 /* Global CSS Variables and Styles */
 
+@import 'tailwindcss';
+
 :root {
   /* Theme colors (set by useTheme composable) */
   --bg: #1a1a1a;
@@ -133,6 +135,7 @@ button {
   color: var(--text);
   cursor: pointer;
   transition: all var(--transition-base);
+  outline: none;
 }
 
 button:hover {
@@ -142,6 +145,11 @@ button:hover {
 
 button:active {
   opacity: 0.8;
+  outline: none;
+}
+
+button:focus {
+  outline: none;
 }
 
 button:disabled {
@@ -168,7 +176,6 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 input::placeholder {

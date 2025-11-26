@@ -13,6 +13,7 @@ A minimal, elegant, and modern dashboard application built with Vue 3, TypeScrip
 - **📱 Mobile Friendly** - Responsive design that works on all devices
 - **🔄 State Management** - Pinia for centralized state management
 - **🛣️ Routing** - Vue Router for seamless navigation
+- **🎪 Drag & Drop** - Interactive draggable cards with smooth animations
 
 ## 🚀 Quick Start
 

@@ -45,14 +45,11 @@ const { themeId } = useTheme()
 }
 
 .theme-select:hover {
-  border-color: var(--accent);
   background-color: var(--surface);
 }
 
 .theme-select:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .theme-select option {
