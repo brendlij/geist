@@ -171,12 +171,17 @@ onUnmounted(() => {
   border-radius: var(--widget-border-radius, 2em);
   padding: var(--widget-padding, 2em);
   overflow: visible;
+  background: var(--surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .widget-wrapper.borderless {
   border: none;
   padding: 0;
   background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Whole card is draggable in edit mode */

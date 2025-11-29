@@ -1,6 +1,13 @@
 // themes.ts
 
-export type ThemeId = 'geist-dark' | 'geist-light' | 'midnight' | 'sage' | 'graphite' | 'coffee'
+export type ThemeId =
+  | 'geist-dark'
+  | 'geist-light'
+  | 'midnight'
+  | 'sage'
+  | 'graphite'
+  | 'coffee'
+  | 'glass'
 
 export interface Theme {
   id: ThemeId
@@ -88,6 +95,18 @@ export const themes: Record<ThemeId, Theme> = {
     accent: '#d4a574',
     accentSoft: 'rgba(212, 165, 116, 0.15)',
     border: '#4a4038',
+  },
+  glass: {
+    id: 'glass',
+    name: 'Glass',
+    background: 'transparent',
+    surface: 'rgba(20, 20, 30, 0.2)',
+    surfaceSoft: 'rgba(30, 30, 40, 0.1)',
+    text: '#ffffff',
+    textMuted: 'rgba(255, 255, 255, 0.7)',
+    accent: '#b19cd9',
+    accentSoft: 'rgba(167, 139, 250, 0.15)',
+    border: 'rgba(255, 255, 255, 0.15)',
   },
 }
 

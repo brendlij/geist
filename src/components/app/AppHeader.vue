@@ -1,12 +1,37 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { Icon } from '@iconify/vue'
 import GeistLogo from './GeistLogo.vue'
-import ThemeSwitcher from './ThemeSwitcher.vue'
 import SwapyGrid from './SwapyGrid.vue'
 import HeaderClock from '@/components/headerWidgets/HeaderClock.vue'
 import HeaderWeather from '@/components/headerWidgets/HeaderWeather.vue'
 import { useHeaderLayoutStore } from '@/stores/headerLayout'
 
+const router = useRouter()
+const showMenu = ref(false)
+const menuWrapper = ref<HTMLElement | null>(null)
+
 const headerLayoutStore = useHeaderLayoutStore()
+
+function navigateToSettings() {
+  router.push('/settings')
+  showMenu.value = false
+}
+
+function handleClickOutside(event: MouseEvent) {
+  if (menuWrapper.value && !menuWrapper.value.contains(event.target as Node)) {
+    showMenu.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 
 // Header widget slots - 8 small slots
 const headerSlots = [
@@ -57,7 +82,19 @@ const headerWidgetRegistry = {
       />
     </div>
 
-    <ThemeSwitcher />
+    <div class="header-right">
+      <div ref="menuWrapper" class="menu-wrapper">
+        <button class="hamburger-button" @click="showMenu = !showMenu">
+          <Icon icon="mdi:menu" width="24" height="24" />
+        </button>
+        <div v-if="showMenu" class="menu-dropdown">
+          <button class="menu-item" @click="navigateToSettings">
+            <Icon icon="mdi:cog" width="20" height="20" />
+            <span>Settings</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </header>
 </template>
 
@@ -72,6 +109,9 @@ const headerWidgetRegistry = {
   background-color: var(--surface);
   box-shadow: var(--shadow-sm);
   gap: 1rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1000;
 }
 
 .header-left {
@@ -134,6 +174,76 @@ const headerWidgetRegistry = {
 
 .header-grid :deep(.swapy-grid.edit-mode .slot) {
   border: 2px dashed var(--border);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.menu-wrapper {
+  position: relative;
+}
+
+.hamburger-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  border: none;
+  background: var(--surface-soft);
+  border-radius: 0.5rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.hamburger-button:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 10000;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.menu-item:hover {
+  color: var(--accent-soft);
 }
 
 @media (max-width: 768px) {

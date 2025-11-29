@@ -15,7 +15,6 @@ export const ALIASES: Record<string, string> = {
   ha: 'home-assistant',
   hass: 'home-assistant',
   'home assistant': 'home-assistant',
-
   // Pi-hole
   'pi-hole': 'pi-hole',
   'pi hole': 'pi-hole',

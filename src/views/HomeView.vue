@@ -324,6 +324,10 @@ function getSectionTitle(sectionId: string | SectionId) {
   transition:
     border-color 0.2s ease,
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1rem;
 }
 
 .section-card.edit-mode {
